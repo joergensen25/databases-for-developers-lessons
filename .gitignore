@@ -1,0 +1,27 @@
+# JetBrains / editors
+.idea/
+*.iml
+
+# SQL Server database files
+*.mdf
+*.ndf
+*.ldf
+
+# SQL Server backups
+*.bak
+*.trn
+
+# Visual Studio / SSMS user-specific files
+*.suo
+*.user
+
+# Temporary files
+*.tmp
+*.temp
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
