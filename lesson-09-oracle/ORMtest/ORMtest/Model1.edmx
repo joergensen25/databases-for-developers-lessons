@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ORMtestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="booking">
+          <Key>
+            <PropertyRef Name="bookingid" />
+          </Key>
+          <Property Name="bookingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ferieugeid" Type="int" Nullable="false" />
+          <Property Name="kundeid" Type="int" Nullable="false" />
+          <Property Name="bookingdato" Type="date" />
+          <Property Name="betalt" Type="bit" />
+        </EntityType>
+        <EntityType Name="feriebolig">
+          <Key>
+            <PropertyRef Name="boligid" />
+          </Key>
+          <Property Name="boligid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maxpersoner" Type="int" Nullable="false" />
+          <Property Name="afstandvand" Type="int" />
+          <Property Name="afstandindkoeb" Type="int" />
+          <Property Name="kvadratmeter" Type="int" />
+          <Property Name="kvalitet" Type="int" Nullable="false" />
+          <Property Name="omraadeid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ferieuge">
+          <Key>
+            <PropertyRef Name="ferieugeid" />
+          </Key>
+          <Property Name="ferieugeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pris" Type="int" Nullable="false" />
+          <Property Name="ugenummer" Type="int" Nullable="false" />
+          <Property Name="ferieboligid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kunde">
+          <Key>
+            <PropertyRef Name="kundeid" />
+          </Key>
+          <Property Name="kundeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kundenavn" Type="varchar" MaxLength="30" />
+          <Property Name="kundeadresse" Type="varchar" MaxLength="40" />
+          <Property Name="postnr" Type="char" MaxLength="4" />
+          <Property Name="kundetlf" Type="char" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="land">
+          <Key>
+            <PropertyRef Name="landekode" />
+          </Key>
+          <Property Name="landekode" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="land" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="omraade">
+          <Key>
+            <PropertyRef Name="omraadeid" />
+          </Key>
+          <Property Name="omraadeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="omraadenavn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="landekode" Type="char" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__booking__ferieug__45F365D3">
+          <End Role="ferieuge" Type="Self.ferieuge" Multiplicity="1" />
+          <End Role="booking" Type="Self.booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ferieuge">
+              <PropertyRef Name="ferieugeid" />
+            </Principal>
+            <Dependent Role="booking">
+              <PropertyRef Name="ferieugeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__booking__kundeid__46E78A0C">
+          <End Role="kunde" Type="Self.kunde" Multiplicity="1" />
+          <End Role="booking" Type="Self.booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kunde">
+              <PropertyRef Name="kundeid" />
+            </Principal>
+            <Dependent Role="booking">
+              <PropertyRef Name="kundeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ferieboli__omraa__403A8C7D">
+          <End Role="omraade" Type="Self.omraade" Multiplicity="1" />
+          <End Role="feriebolig" Type="Self.feriebolig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="omraade">
+              <PropertyRef Name="omraadeid" />
+            </Principal>
+            <Dependent Role="feriebolig">
+              <PropertyRef Name="omraadeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ferieuge__ferieb__4316F928">
+          <End Role="feriebolig" Type="Self.feriebolig" Multiplicity="1" />
+          <End Role="ferieuge" Type="Self.ferieuge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="feriebolig">
+              <PropertyRef Name="boligid" />
+            </Principal>
+            <Dependent Role="ferieuge">
+              <PropertyRef Name="ferieboligid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__omraade__landeko__3C69FB99">
+          <End Role="land" Type="Self.land" Multiplicity="1" />
+          <End Role="omraade" Type="Self.omraade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="land">
+              <PropertyRef Name="landekode" />
+            </Principal>
+            <Dependent Role="omraade">
+              <PropertyRef Name="landekode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ORMtestModelStoreContainer">
+          <EntitySet Name="booking" EntityType="Self.booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="feriebolig" EntityType="Self.feriebolig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ferieuge" EntityType="Self.ferieuge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kunde" EntityType="Self.kunde" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="land" EntityType="Self.land" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="omraade" EntityType="Self.omraade" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__booking__ferieug__45F365D3" Association="Self.FK__booking__ferieug__45F365D3">
+            <End Role="ferieuge" EntitySet="ferieuge" />
+            <End Role="booking" EntitySet="booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__booking__kundeid__46E78A0C" Association="Self.FK__booking__kundeid__46E78A0C">
+            <End Role="kunde" EntitySet="kunde" />
+            <End Role="booking" EntitySet="booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ferieboli__omraa__403A8C7D" Association="Self.FK__ferieboli__omraa__403A8C7D">
+            <End Role="omraade" EntitySet="omraade" />
+            <End Role="feriebolig" EntitySet="feriebolig" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ferieuge__ferieb__4316F928" Association="Self.FK__ferieuge__ferieb__4316F928">
+            <End Role="feriebolig" EntitySet="feriebolig" />
+            <End Role="ferieuge" EntitySet="ferieuge" />
+          </AssociationSet>
+          <AssociationSet Name="FK__omraade__landeko__3C69FB99" Association="Self.FK__omraade__landeko__3C69FB99">
+            <End Role="land" EntitySet="land" />
+            <End Role="omraade" EntitySet="omraade" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ORMtestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="booking">
+          <Key>
+            <PropertyRef Name="bookingid" />
+          </Key>
+          <Property Name="bookingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ferieugeid" Type="Int32" Nullable="false" />
+          <Property Name="kundeid" Type="Int32" Nullable="false" />
+          <Property Name="bookingdato" Type="DateTime" />
+          <Property Name="betalt" Type="Boolean" />
+          <NavigationProperty Name="ferieuge" Relationship="Self.FK__booking__ferieug__45F365D3" FromRole="booking" ToRole="ferieuge" />
+          <NavigationProperty Name="kunde" Relationship="Self.FK__booking__kundeid__46E78A0C" FromRole="booking" ToRole="kunde" />
+        </EntityType>
+        <EntityType Name="feriebolig">
+          <Key>
+            <PropertyRef Name="boligid" />
+          </Key>
+          <Property Name="boligid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maxpersoner" Type="Int32" Nullable="false" />
+          <Property Name="afstandvand" Type="Int32" />
+          <Property Name="afstandindkoeb" Type="Int32" />
+          <Property Name="kvadratmeter" Type="Int32" />
+          <Property Name="kvalitet" Type="Int32" Nullable="false" />
+          <Property Name="omraadeid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="omraade" Relationship="Self.FK__ferieboli__omraa__403A8C7D" FromRole="feriebolig" ToRole="omraade" />
+          <NavigationProperty Name="ferieuges" Relationship="Self.FK__ferieuge__ferieb__4316F928" FromRole="feriebolig" ToRole="ferieuge" />
+        </EntityType>
+        <EntityType Name="ferieuge">
+          <Key>
+            <PropertyRef Name="ferieugeid" />
+          </Key>
+          <Property Name="ferieugeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pris" Type="Int32" Nullable="false" />
+          <Property Name="ugenummer" Type="Int32" Nullable="false" />
+          <Property Name="ferieboligid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="bookings" Relationship="Self.FK__booking__ferieug__45F365D3" FromRole="ferieuge" ToRole="booking" />
+          <NavigationProperty Name="feriebolig" Relationship="Self.FK__ferieuge__ferieb__4316F928" FromRole="ferieuge" ToRole="feriebolig" />
+        </EntityType>
+        <EntityType Name="kunde">
+          <Key>
+            <PropertyRef Name="kundeid" />
+          </Key>
+          <Property Name="kundeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kundenavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="kundeadresse" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="postnr" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="kundetlf" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="bookings" Relationship="Self.FK__booking__kundeid__46E78A0C" FromRole="kunde" ToRole="booking" />
+        </EntityType>
+        <EntityType Name="land">
+          <Key>
+            <PropertyRef Name="landekode" />
+          </Key>
+          <Property Name="landekode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="land1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="omraades" Relationship="Self.FK__omraade__landeko__3C69FB99" FromRole="land" ToRole="omraade" />
+        </EntityType>
+        <EntityType Name="omraade">
+          <Key>
+            <PropertyRef Name="omraadeid" />
+          </Key>
+          <Property Name="omraadeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="omraadenavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="landekode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ferieboligs" Relationship="Self.FK__ferieboli__omraa__403A8C7D" FromRole="omraade" ToRole="feriebolig" />
+          <NavigationProperty Name="land" Relationship="Self.FK__omraade__landeko__3C69FB99" FromRole="omraade" ToRole="land" />
+        </EntityType>
+        <Association Name="FK__booking__ferieug__45F365D3">
+          <End Role="ferieuge" Type="Self.ferieuge" Multiplicity="1" />
+          <End Role="booking" Type="Self.booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ferieuge">
+              <PropertyRef Name="ferieugeid" />
+            </Principal>
+            <Dependent Role="booking">
+              <PropertyRef Name="ferieugeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__booking__kundeid__46E78A0C">
+          <End Role="kunde" Type="Self.kunde" Multiplicity="1" />
+          <End Role="booking" Type="Self.booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kunde">
+              <PropertyRef Name="kundeid" />
+            </Principal>
+            <Dependent Role="booking">
+              <PropertyRef Name="kundeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ferieboli__omraa__403A8C7D">
+          <End Role="omraade" Type="Self.omraade" Multiplicity="1" />
+          <End Role="feriebolig" Type="Self.feriebolig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="omraade">
+              <PropertyRef Name="omraadeid" />
+            </Principal>
+            <Dependent Role="feriebolig">
+              <PropertyRef Name="omraadeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ferieuge__ferieb__4316F928">
+          <End Role="feriebolig" Type="Self.feriebolig" Multiplicity="1" />
+          <End Role="ferieuge" Type="Self.ferieuge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="feriebolig">
+              <PropertyRef Name="boligid" />
+            </Principal>
+            <Dependent Role="ferieuge">
+              <PropertyRef Name="ferieboligid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__omraade__landeko__3C69FB99">
+          <End Role="land" Type="Self.land" Multiplicity="1" />
+          <End Role="omraade" Type="Self.omraade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="land">
+              <PropertyRef Name="landekode" />
+            </Principal>
+            <Dependent Role="omraade">
+              <PropertyRef Name="landekode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ORMtestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bookings" EntityType="Self.booking" />
+          <EntitySet Name="ferieboligs" EntityType="Self.feriebolig" />
+          <EntitySet Name="ferieuges" EntityType="Self.ferieuge" />
+          <EntitySet Name="kundes" EntityType="Self.kunde" />
+          <EntitySet Name="lands" EntityType="Self.land" />
+          <EntitySet Name="omraades" EntityType="Self.omraade" />
+          <AssociationSet Name="FK__booking__ferieug__45F365D3" Association="Self.FK__booking__ferieug__45F365D3">
+            <End Role="ferieuge" EntitySet="ferieuges" />
+            <End Role="booking" EntitySet="bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__booking__kundeid__46E78A0C" Association="Self.FK__booking__kundeid__46E78A0C">
+            <End Role="kunde" EntitySet="kundes" />
+            <End Role="booking" EntitySet="bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ferieboli__omraa__403A8C7D" Association="Self.FK__ferieboli__omraa__403A8C7D">
+            <End Role="omraade" EntitySet="omraades" />
+            <End Role="feriebolig" EntitySet="ferieboligs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ferieuge__ferieb__4316F928" Association="Self.FK__ferieuge__ferieb__4316F928">
+            <End Role="feriebolig" EntitySet="ferieboligs" />
+            <End Role="ferieuge" EntitySet="ferieuges" />
+          </AssociationSet>
+          <AssociationSet Name="FK__omraade__landeko__3C69FB99" Association="Self.FK__omraade__landeko__3C69FB99">
+            <End Role="land" EntitySet="lands" />
+            <End Role="omraade" EntitySet="omraades" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ORMtestModelStoreContainer" CdmEntityContainer="ORMtestEntities">
+          <EntitySetMapping Name="bookings">
+            <EntityTypeMapping TypeName="ORMtestModel.booking">
+              <MappingFragment StoreEntitySet="booking">
+                <ScalarProperty Name="bookingid" ColumnName="bookingid" />
+                <ScalarProperty Name="ferieugeid" ColumnName="ferieugeid" />
+                <ScalarProperty Name="kundeid" ColumnName="kundeid" />
+                <ScalarProperty Name="bookingdato" ColumnName="bookingdato" />
+                <ScalarProperty Name="betalt" ColumnName="betalt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ferieboligs">
+            <EntityTypeMapping TypeName="ORMtestModel.feriebolig">
+              <MappingFragment StoreEntitySet="feriebolig">
+                <ScalarProperty Name="boligid" ColumnName="boligid" />
+                <ScalarProperty Name="maxpersoner" ColumnName="maxpersoner" />
+                <ScalarProperty Name="afstandvand" ColumnName="afstandvand" />
+                <ScalarProperty Name="afstandindkoeb" ColumnName="afstandindkoeb" />
+                <ScalarProperty Name="kvadratmeter" ColumnName="kvadratmeter" />
+                <ScalarProperty Name="kvalitet" ColumnName="kvalitet" />
+                <ScalarProperty Name="omraadeid" ColumnName="omraadeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ferieuges">
+            <EntityTypeMapping TypeName="ORMtestModel.ferieuge">
+              <MappingFragment StoreEntitySet="ferieuge">
+                <ScalarProperty Name="ferieugeid" ColumnName="ferieugeid" />
+                <ScalarProperty Name="pris" ColumnName="pris" />
+                <ScalarProperty Name="ugenummer" ColumnName="ugenummer" />
+                <ScalarProperty Name="ferieboligid" ColumnName="ferieboligid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kundes">
+            <EntityTypeMapping TypeName="ORMtestModel.kunde">
+              <MappingFragment StoreEntitySet="kunde">
+                <ScalarProperty Name="kundeid" ColumnName="kundeid" />
+                <ScalarProperty Name="kundenavn" ColumnName="kundenavn" />
+                <ScalarProperty Name="kundeadresse" ColumnName="kundeadresse" />
+                <ScalarProperty Name="postnr" ColumnName="postnr" />
+                <ScalarProperty Name="kundetlf" ColumnName="kundetlf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lands">
+            <EntityTypeMapping TypeName="ORMtestModel.land">
+              <MappingFragment StoreEntitySet="land">
+                <ScalarProperty Name="landekode" ColumnName="landekode" />
+                <ScalarProperty Name="land1" ColumnName="land" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="omraades">
+            <EntityTypeMapping TypeName="ORMtestModel.omraade">
+              <MappingFragment StoreEntitySet="omraade">
+                <ScalarProperty Name="omraadeid" ColumnName="omraadeid" />
+                <ScalarProperty Name="omraadenavn" ColumnName="omraadenavn" />
+                <ScalarProperty Name="landekode" ColumnName="landekode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

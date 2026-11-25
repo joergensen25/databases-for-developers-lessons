@@ -20,7 +20,7 @@ public class dbclassjava {
 	public static void selectexample(Connection myConnection) {
 		try {
 			Statement stmt = myConnection.createStatement();
-			ResultSet res=stmt.executeQuery("select navn,stilling from person");
+			ResultSet res=stmt.executeQuery("select navn,stilling from person12");
 			while (res.next()) {
 				System.out.println(res.getString(1) + "    " + res.getString(2));
 			}
@@ -41,20 +41,20 @@ public class dbclassjava {
 			System.out.println("Give the company no.");
 			String companystr=inLine.readLine();
 			Statement stmt = myConnection.createStatement();
-			stmt.execute("insert into ansati values ('" + cprstr + "'," + companystr + ")" );
+			stmt.execute("insert into ansati12 values ('" + cprstr + "'," + companystr + ")" );
 			System.out.println("The registration is done");
 			if (stmt != null) stmt.close();
 			if (myConnection != null) myConnection.close();
 		}
 		catch (SQLException e) {
 			        switch (e.getErrorCode())
-			        { case 547 : {if (e.getMessage().indexOf("cprforeign")!= -1)
+			        { case 2291 : {if (e.getMessage().indexOf("CPRFOREIGN")!= -1)
 										System.out.println("cpr-number does not exist");
-								  if (e.getMessage().indexOf("firmaforeign")!= -1)
+								  if (e.getMessage().indexOf("FIRMAFOREIGN")!= -1)
 										System.out.println("companyno. does not exist");
 								  break;
 			        			}
-			          case 2627: {System.out.println("the person allready works in that company");
+			          case 1: {System.out.println("the person allready works in that company");
 			          	          break;
 			         			 }
 			          default: System.out.println("errorSQL:  "+e.getMessage());
@@ -168,11 +168,11 @@ public class dbclassjava {
 		String dbnavn="oracleeksempeldb";
 		String login="sa";
 		String password="torben07";
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		myConnection = DriverManager.getConnection("jdbc:sqlserver://"+server+";databaseName="+dbnavn+
-				";user=" + login + ";password=" + password + ";");
-		//Class.forName("oracle.jdbc.driver.OracleDriver");
-		//myConnection = DriverManager.getConnection("jdbc:oracle:thin://@10.10.133.214:1521:xe","system","torben07");
+		//Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		// myConnection = DriverManager.getConnection("jdbc:sqlserver://"+server+";databaseName="+dbnavn+
+		//		";user=" + login + ";password=" + password + ";");
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		myConnection = DriverManager.getConnection("jdbc:oracle:thin://@10.10.132.189:1521:xe","system","torben07");
 		System.out.println("Type s for Selectexample, i for Insertexample, p for Storedprocedureexample eller b for Bankexample");
 		BufferedReader inLine = new BufferedReader(new InputStreamReader(System.in));
 		String in=inLine.readLine();

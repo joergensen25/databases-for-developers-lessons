@@ -155,3 +155,7 @@ dbms_output.put_line('Total loen er: ' || totalloen);
 end;
 
 
+-- Opgave 12:
+-- Tester med et forkert insert
+insert into ansati12 values ('asdasd', 8)
+

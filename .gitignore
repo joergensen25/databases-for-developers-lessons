@@ -12,8 +12,17 @@
 *.trn
 
 # Visual Studio / SSMS user-specific files
+.vs/
 *.suo
 *.user
+
+# Visual Studio build output
+[Bb]in/
+[Oo]bj/
+
+# NuGet packages
+[Pp]ackages/
+*.nupkg
 
 # Temporary files
 *.tmp
